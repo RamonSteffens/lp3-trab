@@ -59,6 +59,8 @@ public class Jogo {
         this.apostas = apostas;
     }
 
+    public void addAposta(Aposta aposta) { this.apostas.add(aposta); }
+
     @Override
     public String toString() {
         return id + " - Time da casa: "
