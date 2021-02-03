@@ -58,4 +58,11 @@ public class Jogo {
     public void setApostas(List<Aposta> apostas) {
         this.apostas = apostas;
     }
+
+    @Override
+    public String toString() {
+        return id + " - Time da casa: "
+                + timeCasa + " - Time visitante: "
+                + timeFora + " - Total de gols: " + totalDeGols;
+    }
 }
