@@ -55,12 +55,9 @@ public class Aposta {
 
     @Override
     public String toString() {
-        return "Aposta{" +
-                "id=" + id +
-                ", dataCriacao=" + dataCriacao +
-                ", valorAposta=" + valorAposta +
-                ", apostadorId=" + apostador +
-                '}';
+        return id + " - Valor apostado: "
+                + valorAposta + " - Criação da aposta: "
+                + dataCriacao + " - Apostador: " + getApostadorId().getNome();
     }
 
     public List<Jogo> getJogos() {
