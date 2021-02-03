@@ -20,6 +20,9 @@ import java.util.Objects;
 public class Lp3Application {
 
     private JTextField textFieldNome = new JTextField();
+    private JTextField textFieldValor = new JTextField();
+    private JDatePanel dataCriacaoAposta = new JDatePanel(new SqlDateModel());
+
     //TIPO PARA TRABALHAR COM DATAS, LIB EXTERNA
     private JDatePanel dataAniversarioField = new JDatePanel(new SqlDateModel());
 
@@ -28,12 +31,19 @@ public class Lp3Application {
     private JButton btListar = new JButton("Listar");
     private JButton btDeletar = new JButton("Deletar");
 
+    //BOTOES RELACIONADO A AÇÕES DE APOSTA
+    private JButton btCadastrarAposta = new JButton("Cadastrar aposta");
+    private JButton btListarAposta = new JButton("Listar");
+    private JButton btDeletarAposta = new JButton("Deletar");
+
     //INJETANDO REPOSITORIO DE APOSTADOR
     @Autowired
     private ApostadorRepository apostadorRepository;
 
     //LISTA EXIBIDA NA LISTAGEM DE APOSTADORES
     private JList<Apostador> apostadoresJList = new JList<>();
+
+    private JList<Aposta> apostasJList = new JList<>();
 
     //BOTOES RELACIONADO A MENU DE APOSTADOR
     private JButton btCadastroApostador = new JButton("Cadastro");
@@ -44,9 +54,9 @@ public class Lp3Application {
     private ApostaRepository apostaRepository;
 
     //BOTOEs RELACIONADOS A MENU DE APOSTAS
-    private JButton btCadastroAposta = new JButton( "Cadastrar aposta");
-    private JButton btListarApostas = new JButton(" Listar apostas");
-    private JButton encontrarApostaPorId = new JButton ("Encontrar aposta");
+    private JButton btCadastroAposta = new JButton("Cadastrar aposta");
+    private JButton btListarApostas = new JButton("Listar apostas");
+    private JButton btEncontrarApostaPorId = new JButton ("Encontrar aposta");
 
 
     public static void main(String[] args) {
@@ -60,6 +70,7 @@ public class Lp3Application {
 
         defineMenuApostador();
 
+        defineMenuAposta();
     }
 
     private void defineMenuApostador() {
@@ -71,6 +82,17 @@ public class Lp3Application {
         btListarApostadores.addActionListener(e -> criaMenuListagem());
 
         defineAcoesDosBotoesRelacionadoAApostador(apostadorRepository);
+    }
+
+    private void defineMenuAposta() {
+        criarMenuAposta();
+
+        //AÇÃO DO BOTAO DE CADASTRO
+        btCadastroAposta.addActionListener(e -> criaMenuCadastroAposta());
+        //AÇÃO DO BOTAO DE LISTAGEM DE APOSTADORES
+        btListarApostas.addActionListener(e -> criaMenuListagemApostas());
+
+        defineAcoesDosBotoesRelacionadoAAposta(apostaRepository);
     }
 
     private void defineAcoesDosBotoesRelacionadoAApostador(ApostadorRepository apostadorRepository) {
@@ -125,6 +147,58 @@ public class Lp3Application {
         });
     }
 
+    private void defineAcoesDosBotoesRelacionadoAAposta(ApostaRepository apostaRepository) {
+        //CADASTRA APOSTADOR
+        btCadastrarAposta.addActionListener(a -> {
+
+            Aposta aposta = new Aposta();
+
+            String valor  = textFieldValor.getText();
+
+            Date selectedDate = (Date) dataCriacaoAposta.getModel().getValue();
+
+            aposta.setValorAposta(Double.valueOf(valor));
+            aposta.setDataCriacao(selectedDate);
+
+            apostaRepository.save(aposta);
+
+            JOptionPane.showMessageDialog(btCadastrarAposta, "Aposta cadastrada");
+        });
+        //LISTA DE APOSTADOR
+        btListarAposta.addActionListener(a -> {
+
+            List<Aposta> apostas = apostaRepository.findAll();
+
+            List<Aposta> apostasReal = new ArrayList<>(apostas);
+
+            Aposta[] apostasArray = apostasReal.toArray(new Aposta[0]);
+
+            apostasJList.setListData(apostasArray);
+
+            if (apostas.size() > 0) { //Habilita botão de deleção
+                btDeletarAposta.setEnabled(true);
+            }
+        });
+        //DELETE APOSTADOR SELECIONADO
+        btDeletarAposta.addActionListener(a -> {
+
+            var aposta = apostasJList.getSelectedValue();
+            //DELETE APOSTADOR
+            if (Objects.nonNull(aposta)) {
+                apostaRepository.deleteById(aposta.getId());
+
+                //MONTA NOVA LISTA
+                var listaBanco = apostaRepository.findAll();
+
+                apostasJList.setListData(listaBanco.toArray(Aposta[]::new));
+
+                if (listaBanco.size() == 0) { //Desabilita botão de deleção
+                    btDeletarAposta.setEnabled(false);
+                }
+            }
+        });
+    }
+
     private void criarMenuApostador() {
         var janela = getJanela("Menu");
 
@@ -139,7 +213,22 @@ public class Lp3Application {
         janela.getContentPane().add(painel, BorderLayout.CENTER);
 
         janela.revalidate();
-        ;
+    }
+
+    private void criarMenuAposta() {
+        var janela = getJanela("Menu aposta");
+
+        JPanel painel = new JPanel();
+        painel.setLayout(new GridLayout(0, 1));
+
+        painel.add(btCadastroAposta);
+        painel.add(btListarApostas);
+        painel.add(btEncontrarApostaPorId);
+
+        janela.getContentPane().setLayout(new BorderLayout());
+        janela.getContentPane().add(painel, BorderLayout.CENTER);
+
+        janela.revalidate();
     }
 
     private void criaMenuCadastro() {
@@ -176,6 +265,52 @@ public class Lp3Application {
 
         //Cria scroll com base na lista
         JScrollPane listScrollPane = new JScrollPane(apostadoresJList);
+
+        painel.add(btListar, BorderLayout.BEFORE_LINE_BEGINS);
+        painel.add(btDeletar, BorderLayout.PAGE_END);
+
+        janela.getContentPane().setLayout(new BorderLayout());
+        janela.setContentPane(painel);
+        janela.add(listScrollPane);
+
+        janela.revalidate();
+        janela.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+    }
+
+    private void criaMenuCadastroAposta() {
+        var janela = getJanela("Cadastro de Apostas");
+
+        JPanel painel = new JPanel();
+        painel.setLayout(new GridLayout(0, 1));
+
+        painel.add(new JLabel("Data da Aposta"));
+        painel.add(dataCriacaoAposta);
+
+        painel.add(new JLabel("Valor a Apostar"));
+        painel.add(textFieldValor);
+
+        painel.add(btCadastrarAposta);
+
+        janela.getContentPane().setLayout(new BorderLayout());
+        janela.getContentPane().add(painel, BorderLayout.CENTER);
+
+        janela.revalidate();
+        janela.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+    }
+
+    private void criaMenuListagemApostas() {
+        var janela = getJanela("Listagem");
+
+        JPanel painel = new JPanel();
+        painel.setLayout(new BorderLayout());
+        painel.setOpaque(true);
+
+        painel.add(new JLabel("Apostas"), BorderLayout.PAGE_START);
+
+        painel.add(apostasJList, BorderLayout.CENTER);
+
+        //Cria scroll com base na lista
+        JScrollPane listScrollPane = new JScrollPane(apostasJList);
 
         painel.add(btListar, BorderLayout.BEFORE_LINE_BEGINS);
         painel.add(btDeletar, BorderLayout.PAGE_END);
