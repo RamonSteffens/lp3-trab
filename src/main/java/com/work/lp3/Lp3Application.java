@@ -312,7 +312,7 @@ public class Lp3Application {
         //Cria scroll com base na lista
         JScrollPane listScrollPane = new JScrollPane(apostasJList);
 
-        painel.add(btListar, BorderLayout.BEFORE_LINE_BEGINS);
+        painel.add(btListarAposta, BorderLayout.BEFORE_LINE_BEGINS);
         painel.add(btDeletar, BorderLayout.PAGE_END);
 
         janela.getContentPane().setLayout(new BorderLayout());
