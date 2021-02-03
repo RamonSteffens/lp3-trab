@@ -45,11 +45,11 @@ public class Aposta {
         this.valorAposta = valorAposta;
     }
 
-    public Apostador getApostadorId() {
+    public Apostador getApostador() {
         return apostador;
     }
 
-    public void setApostadorId(Apostador apostadorId) {
+    public void setApostador(Apostador apostadorId) {
         this.apostador = apostadorId;
     }
 
@@ -57,7 +57,7 @@ public class Aposta {
     public String toString() {
         return id + " - Valor apostado: "
                 + valorAposta + " - Criação da aposta: "
-                + dataCriacao + " - Apostador: " + getApostadorId().getNome();
+                + dataCriacao + " - Apostador: " + getApostador().getNome();
     }
 
     public List<Jogo> getJogos() {

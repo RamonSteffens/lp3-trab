@@ -160,7 +160,7 @@ public class Lp3Application {
 
             aposta.setValorAposta(Double.valueOf(valor));
             aposta.setDataCriacao(selectedDate);
-            aposta.setApostadorId(apostador);
+            aposta.setApostador(apostador);
 
             apostaRepository.save(aposta);
 
