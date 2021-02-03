@@ -1,4 +1,6 @@
 package com.work.lp3;
 
-public interface JogoRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface JogoRepository extends JpaRepository<Jogo, Integer> {
 }
