@@ -27,14 +27,14 @@ public class Lp3Application {
     private JDatePanel dataAniversarioField = new JDatePanel(new SqlDateModel());
 
     //BOTOES RELACIONADO A AÇÕES DE APOSTADOR
-    private JButton btCadastrar = new JButton("Cadastrar");
-    private JButton btListar = new JButton("Listar");
-    private JButton btDeletar = new JButton("Deletar");
+    private JButton btCadastrar = new JButton("Cadastrar apostador");
+    private JButton btListar = new JButton("Listar apostadores");
+    private JButton btDeletar = new JButton("Deletar apostador");
 
     //BOTOES RELACIONADO A AÇÕES DE APOSTA
     private JButton btCadastrarAposta = new JButton("Cadastrar aposta");
-    private JButton btListarAposta = new JButton("Listar");
-    private JButton btDeletarAposta = new JButton("Deletar");
+    private JButton btListarAposta = new JButton("Listar apostas");
+    private JButton btDeletarAposta = new JButton("Deletar aposta");
 
     //INJETANDO REPOSITORIO DE APOSTADOR
     @Autowired
@@ -92,7 +92,7 @@ public class Lp3Application {
         //AÇÃO DO BOTAO DE LISTAGEM DE APOSTADORES
         btListarApostas.addActionListener(e -> criaMenuListagemApostas());
 
-        defineAcoesDosBotoesRelacionadoAAposta(apostaRepository);
+        defineAcoesDosBotoesRelacionadoAAposta(apostadorRepository, apostaRepository);
     }
 
     private void defineAcoesDosBotoesRelacionadoAApostador(ApostadorRepository apostadorRepository) {
@@ -147,9 +147,10 @@ public class Lp3Application {
         });
     }
 
-    private void defineAcoesDosBotoesRelacionadoAAposta(ApostaRepository apostaRepository) {
+    private void defineAcoesDosBotoesRelacionadoAAposta(ApostadorRepository apostadorRepository1, ApostaRepository apostaRepository) {
         //CADASTRA APOSTADOR
         btCadastrarAposta.addActionListener(a -> {
+            Apostador apostador = apostadoresJList.getSelectedValue();
 
             Aposta aposta = new Aposta();
 
@@ -159,6 +160,7 @@ public class Lp3Application {
 
             aposta.setValorAposta(Double.valueOf(valor));
             aposta.setDataCriacao(selectedDate);
+            aposta.setApostadorId(apostador);
 
             apostaRepository.save(aposta);
 
@@ -283,19 +285,33 @@ public class Lp3Application {
         JPanel painel = new JPanel();
         painel.setLayout(new GridLayout(0, 1));
 
-        painel.add(new JLabel("Data da Aposta"));
-        painel.add(dataCriacaoAposta);
+        painel.setOpaque(true);
 
+        painel.add(new JLabel("Apostadores"), BorderLayout.PAGE_START);
+
+        painel.add(apostadoresJList, BorderLayout.AFTER_LAST_LINE);
+
+        //Cria scroll com base na lista
+        JScrollPane listScrollPane = new JScrollPane(apostadoresJList);
+
+        janela.getContentPane().setLayout(new BorderLayout());
+        janela.setContentPane(painel);
+        janela.add(listScrollPane);
+
+        painel.add(btListar, BorderLayout.BEFORE_LINE_BEGINS);
         painel.add(new JLabel("Valor a Apostar"));
         painel.add(textFieldValor);
 
+        painel.add(new JLabel("Data da Aposta"));
+        painel.add(dataCriacaoAposta);
+
         painel.add(btCadastrarAposta);
 
-        janela.getContentPane().setLayout(new BorderLayout());
-        janela.getContentPane().add(painel, BorderLayout.CENTER);
+
 
         janela.revalidate();
         janela.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+
     }
 
     private void criaMenuListagemApostas() {
@@ -313,7 +329,7 @@ public class Lp3Application {
         JScrollPane listScrollPane = new JScrollPane(apostasJList);
 
         painel.add(btListarAposta, BorderLayout.BEFORE_LINE_BEGINS);
-        painel.add(btDeletar, BorderLayout.PAGE_END);
+        painel.add(btDeletarAposta, BorderLayout.PAGE_END);
 
         janela.getContentPane().setLayout(new BorderLayout());
         janela.setContentPane(painel);
