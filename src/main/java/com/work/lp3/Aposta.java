@@ -67,4 +67,6 @@ public class Aposta {
     public void setJogos(List<Jogo> jogos) {
         this.jogos = jogos;
     }
+
+    public void addJogo(Jogo jogo) { this.jogos.add(jogo); }
 }
