@@ -1,5 +1,6 @@
 package com.work.lp3;
 
+import com.sun.xml.bind.v2.TODO;
 import org.jdatepicker.JDatePanel;
 import org.jdatepicker.SqlDateModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,10 @@ public class Lp3Application {
     private JButton btListarJogo = new JButton("Listar jogos");
     private JButton btDeletarJogo = new JButton("Deletar jogo");
 
+    //BOTOES RELACIONADOS AS AÇÕES DE APOSTAR EM JOGOS
+    private JButton btCadastrarApostaEmJogo = new JButton("Apostar em um jogo");
+    private JButton btListarApostaEJogo = new JButton("Listar aposta e jogos");
+
     //INJETANDO REPOSITORIO DE APOSTADOR, APOSTA E JOGO
     @Autowired
     private ApostadorRepository apostadorRepository;
@@ -79,6 +84,9 @@ public class Lp3Application {
     private JButton btListarJogos = new JButton("Listar jogos");
     private JButton btEncontrarJogoPorId = new JButton ("Encontrar jogo");
 
+    //BOTOES RELACIONADOS AO MENU DE APOSTAR EM JOGOS
+    private JButton btCadastroApostaEmJogo = new JButton("Apostar em um jogo");
+
     public static void main(String[] args) {
         SpringApplicationBuilder builder = new SpringApplicationBuilder(Lp3Application.class);
         builder.headless(false);
@@ -93,6 +101,8 @@ public class Lp3Application {
         defineMenuAposta();
 
         defineMenuJogo();
+
+        defineMenuApostarEmJogo();
     }
 
     private void defineMenuApostador() {
@@ -486,6 +496,84 @@ public class Lp3Application {
 
         janela.revalidate();
         janela.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+    }
+
+    private void defineMenuApostarEmJogo() {
+        criarMenuApostaEmJogo();
+        //AÇÃO DO BOTAO DE CADASTRAR UMA APOSTA NUM JOGO
+        btCadastroApostaEmJogo.addActionListener(e -> criaMenuCadastroApostaEmJogo());
+        //AÇÃO DO BOTAO DE LISTAGEM DE APOSTADORES
+        //btListarApostadores.addActionListener(e -> criaMenuListagemApostador());
+        defineAcoesDosBotoesRelacionadoAApostaEmJogo(apostaRepository, jogoRepository);
+    }
+
+    private void defineAcoesDosBotoesRelacionadoAApostaEmJogo(ApostaRepository apostaRepository, JogoRepository jogoRepository) {
+        //CADASTRA APOSTA EM JOGO
+        btCadastrarApostaEmJogo.addActionListener(a -> {
+            Aposta aposta = apostasJList.getSelectedValue();
+
+            Jogo jogo = jogosJList.getSelectedValue();
+
+            //aposta.addJogo(jogo);
+            //jogo.addAposta(aposta);
+
+            apostaRepository.save(aposta);
+            jogoRepository.save(jogo);
+
+            JOptionPane.showMessageDialog(btCadastrarAposta, "Aposta cadastrada");
+        });
+    }
+
+    private void criarMenuApostaEmJogo() {
+        var janela = getJanela("Menu apostar em um jogo");
+
+        JPanel painel = new JPanel();
+        painel.setLayout(new GridLayout(0, 1));
+
+        painel.add(btCadastroApostaEmJogo);
+        painel.add(new JLabel());
+        painel.add(btListarApostaEJogo);
+
+        janela.getContentPane().setLayout(new BorderLayout());
+        janela.getContentPane().add(painel, BorderLayout.CENTER);
+
+        janela.revalidate();
+    }
+
+    private void criaMenuCadastroApostaEmJogo() {
+        var janela = getJanela("Apost em um jogo");
+
+        JPanel painel = new JPanel();
+        painel.setLayout(new GridLayout(0, 1));
+        painel.setOpaque(true);
+
+        painel.add(new JLabel("Apostas"), BorderLayout.PAGE_START);
+
+        painel.add(apostasJList, BorderLayout.AFTER_LAST_LINE);
+
+        //Cria scroll com base na lista
+        JScrollPane listScrollPane = new JScrollPane(apostasJList);
+
+        janela.getContentPane().setLayout(new BorderLayout());
+        janela.setContentPane(painel);
+        janela.add(listScrollPane);
+
+        painel.add(new JLabel("Jogos"), BorderLayout.PAGE_START);
+
+        painel.add(jogosJList, BorderLayout.AFTER_LAST_LINE);
+
+        //Cria scroll com base na lista
+        JScrollPane listScrollPane1 = new JScrollPane(jogosJList);
+
+        janela.getContentPane().setLayout(new BorderLayout());
+        janela.setContentPane(painel);
+        janela.add(listScrollPane1);
+
+        painel.add(btCadastrarApostaEmJogo);
+
+        janela.revalidate();
+        janela.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+
     }
 
     private JFrame getJanela(String s) {
