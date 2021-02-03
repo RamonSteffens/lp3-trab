@@ -39,6 +39,15 @@ public class Lp3Application {
     private JButton btCadastroApostador = new JButton("Cadastro");
     private JButton btListarApostadores = new JButton("Listar apostadores");
 
+    //INJETANDO REPOSITORIO DE APOSTA
+    @Autowired
+    private ApostaRepository apostaRepository;
+
+    //BOTOEs RELACIONADOS A MENU DE APOSTAS
+    private JButton btCadastroAposta = new JButton( "Cadastrar aposta");
+    private JButton btListarApostas = new JButton(" Listar apostas");
+    private JButton encontrarApostaPorId = new JButton ("Encontrar aposta");
+
 
     public static void main(String[] args) {
         SpringApplicationBuilder builder = new SpringApplicationBuilder(Lp3Application.class);
