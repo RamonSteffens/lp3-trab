@@ -1,6 +1,7 @@
-package com.work.lp3;
+package com.work.lp3.entity;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.List;
 
 @Entity
@@ -18,6 +19,8 @@ public class Jogo {
     private String timeFora;
 
     private Integer totalDeGols;
+
+    private Date dataDoJogo;
 
     public String getTimeCasa() {
         return timeCasa;
@@ -66,5 +69,13 @@ public class Jogo {
         return id + " - Time da casa: "
                 + timeCasa + " - Time visitante: "
                 + timeFora + " - Total de gols: " + totalDeGols;
+    }
+
+    public Date getDataDoJogo() {
+        return dataDoJogo;
+    }
+
+    public void setDataDoJogo(Date dataDoJogo) {
+        this.dataDoJogo = dataDoJogo;
     }
 }

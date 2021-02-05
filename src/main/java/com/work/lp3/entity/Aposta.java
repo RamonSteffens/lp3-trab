@@ -1,4 +1,4 @@
-package com.work.lp3;
+package com.work.lp3.entity;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,8 +10,6 @@ public class Aposta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    private Date dataCriacao;
 
     private Double valorAposta;
 
@@ -27,14 +25,6 @@ public class Aposta {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Date getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public void setDataCriacao(Date dataCriacao) {
-        this.dataCriacao = dataCriacao;
     }
 
     public Double getValorAposta() {
@@ -56,8 +46,7 @@ public class Aposta {
     @Override
     public String toString() {
         return id + " - Valor apostado: "
-                + valorAposta + " - Criação da aposta: "
-                + dataCriacao + " - Apostador: " + getApostador().getNome();
+                + valorAposta +  " - Apostador: " + getApostador();
     }
 
     public List<Jogo> getJogos() {

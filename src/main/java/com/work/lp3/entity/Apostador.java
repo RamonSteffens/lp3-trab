@@ -1,4 +1,4 @@
-package com.work.lp3;
+package com.work.lp3.entity;
 
 import javax.persistence.*;
 import java.util.Date;
