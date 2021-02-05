@@ -1,5 +1,7 @@
 package com.work.lp3.service;
 
+import com.work.lp3.repository.ApostaRepository;
+import com.work.lp3.repository.JogoRepository;
 import com.work.lp3.service.aposta.ApostaService;
 import com.work.lp3.service.apostador.ApostadorService;
 import com.work.lp3.service.jogo.JogoService;

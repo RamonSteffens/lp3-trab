@@ -50,7 +50,7 @@ public class JogoService {
         defineAcoesDosBotoesRelacionadoAJogo(jogoRepository);
     }
 
-    private void defineAcoesDosBotoesRelacionadoAJogo(JogoRepository jogoRepository) {
+    public void defineAcoesDosBotoesRelacionadoAJogo(JogoRepository jogoRepository) {
         //CADASTRA JOGO
         btCadastrarJogo.addActionListener(a -> {
 

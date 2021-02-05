@@ -38,8 +38,6 @@ public class BotaoApostaService {
             aposta.setJogos(jogosJList.getSelectedValuesList());
 
             apostaRepository.save(aposta);
-
-            JOptionPane.showMessageDialog(btCadastrarAposta, "Aposta cadastrada");
         });
         //LISTA DE APOSTAS
         btListarApostaDeUmApostador.addActionListener(a -> {
@@ -60,18 +58,6 @@ public class BotaoApostaService {
             if (apostas.isEmpty()) {
                 JOptionPane.showMessageDialog(btListarApostaDeUmApostador, "Apostador sem apostas");
             }
-
-        });
-
-        btListarTodasApostas.addActionListener(a -> {
-
-            List<Aposta> apostas = apostaRepository.findAll();
-
-            List<Aposta> apostasReal = new ArrayList<>(apostas);
-
-            Aposta[] apostasArray = apostasReal.toArray(new Aposta[0]);
-
-            apostasJList.setListData(apostasArray);
         });
 
         //DELETE APOSTA SELECIONADA
@@ -82,15 +68,27 @@ public class BotaoApostaService {
             if (Objects.nonNull(aposta)) {
                 apostaRepository.deleteById(aposta.getId());
 
-                //MONTA NOVA LISTA
-                var listaBanco = apostaRepository.findAll();
+                var listaBanco = apostaRepository.findAllByApostadorId(apostador.getId());
 
-                apostasJListDeUmApostador.setListData(listaBanco.toArray(Aposta[]::new));
+                listaBanco.ifPresent(apostas -> apostasJListDeUmApostador.setListData(apostas.toArray(Aposta[]::new)));
 
-                if (listaBanco.size() == 0) { //Desabilita botão de deleção
+                if (listaBanco.isEmpty()) { //Desabilita botão de deleção
                     btDeletarAposta.setEnabled(false);
                 }
             }
+        });
+    }
+
+    public void listarTodasApostas(ApostaRepository apostaRepository){
+        btListarTodasApostas.addActionListener(a -> {
+
+            List<Aposta> apostas = apostaRepository.findAll();
+
+            List<Aposta> apostasReal = new ArrayList<>(apostas);
+
+            Aposta[] apostasArray = apostasReal.toArray(new Aposta[0]);
+
+            apostasJList.setListData(apostasArray);
         });
     }
 }

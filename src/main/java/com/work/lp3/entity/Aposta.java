@@ -1,6 +1,7 @@
 package com.work.lp3.entity;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class Aposta {
 
     @ManyToOne
     private Apostador apostador;
+
+    private Date dataDeCriacaoAposta = Date.from(Instant.now());
 
     public Integer getId() {
         return id;
@@ -46,7 +49,7 @@ public class Aposta {
     @Override
     public String toString() {
         return id + " - Valor apostado: "
-                + valorAposta +  " - Apostador: " + getApostador();
+                + valorAposta + " - Apostador: " + getApostador();
     }
 
     public List<Jogo> getJogos() {
@@ -57,5 +60,15 @@ public class Aposta {
         this.jogos = jogos;
     }
 
-    public void addJogo(Jogo jogo) { this.jogos.add(jogo); }
+    public void addJogo(Jogo jogo) {
+        this.jogos.add(jogo);
+    }
+
+    public Date getDataDeCriacaoAposta() {
+        return dataDeCriacaoAposta;
+    }
+
+    public void setDataDeCriacaoAposta(Date dataDeCriacaoAposta) {
+        this.dataDeCriacaoAposta = dataDeCriacaoAposta;
+    }
 }

@@ -3,11 +3,15 @@ package com.work.lp3.service.aposta;
 import com.work.lp3.entity.Aposta;
 import com.work.lp3.entity.Apostador;
 import com.work.lp3.repository.ApostaRepository;
+import com.work.lp3.repository.JogoRepository;
+import com.work.lp3.service.jogo.JogoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.work.lp3.Commons.getJanela;
 import static com.work.lp3.service.aposta.BotaoApostaService.*;
@@ -22,6 +26,12 @@ public class ApostaService {
 
     @Autowired
     private BotaoApostaService botaoApostaService;
+
+    @Autowired
+    private JogoService jogoService;
+
+    @Autowired
+    private JogoRepository jogoRepository;
 
     //BOTOES RELACIONADOS AO MENU DE APOSTAS
     private JButton btCadastroAposta = new JButton("Cadastrar aposta");
@@ -65,6 +75,7 @@ public class ApostaService {
 
     private void criaMenuCadastroAposta() {
         var janela = getJanela("Cadastro de Apostas");
+        jogoService.defineAcoesDosBotoesRelacionadoAJogo(jogoRepository);
 
         JPanel painel = new JPanel();
         painel.setLayout(new GridLayout(0, 1));
@@ -78,8 +89,8 @@ public class ApostaService {
 
         painel.add(new JLabel("Jogos disponíveis"));
         painel.add(jogosJList);
-
         painel.add(btListarJogo);
+
 
         //Cria scroll com base na lista
         painel.add(new JScrollPane(jogosJList));
@@ -124,7 +135,9 @@ public class ApostaService {
         painel.setLayout(new GridLayout(0, 1));
         painel.setOpaque(true);
 
-        painel.add(new JLabel("Apostas"), BorderLayout.PAGE_START);
+        botaoApostaService.listarTodasApostas(apostaRepository);
+
+        painel.add(new JLabel("Apostas"));
         painel.add(apostasJList);
         painel.add(btListarTodasApostas);
 

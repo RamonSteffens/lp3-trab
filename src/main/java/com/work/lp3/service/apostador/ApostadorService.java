@@ -36,7 +36,7 @@ public class ApostadorService {
     //BOTOES RELACIONADOS AO MENU DE APOSTADOR
     private JButton btCadastroApostador = new JButton("Cadastro");
     private JButton btListarApostadores = new JButton("Listar apostadores");
-    private JButton btLoginApostador = new JButton("Login");
+    private JButton btLoginApostador = new JButton("Login por nome");
 
     public void defineMenuApostador() {
         criarMenuApostador();
@@ -75,12 +75,14 @@ public class ApostadorService {
 
         painel.add(btCadastroApostador);
         painel.add(new JLabel());
+        painel.add(new JLabel());
         painel.add(btLoginApostador);
+        painel.add(new JLabel());
         painel.add(new JLabel());
         painel.add(btListarApostadores);
 
         janela.getContentPane().setLayout(new BorderLayout());
-        janela.getContentPane().add(painel, BorderLayout.CENTER);
+        janela.getContentPane().add(painel);
 
         janela.revalidate();
         janela.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
@@ -128,7 +130,6 @@ public class ApostadorService {
 
         painel.add(btListarApostador, BorderLayout.BEFORE_LINE_BEGINS);
         painel.add(btDeletarApostador, BorderLayout.PAGE_END);
-        painel.add(btLoginApostador, BorderLayout.BEFORE_FIRST_LINE);
 
         janela.getContentPane().setLayout(new BorderLayout());
         janela.setContentPane(painel);
