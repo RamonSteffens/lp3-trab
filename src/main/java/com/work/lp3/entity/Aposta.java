@@ -2,6 +2,7 @@ package com.work.lp3.entity;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class Aposta {
     @Override
     public String toString() {
         return id + " - Valor apostado: "
-                + valorAposta + " - Apostador: " + getApostador();
+                + valorAposta + " - Apostador: " + getApostador().getNome();
     }
 
     public List<Jogo> getJogos() {

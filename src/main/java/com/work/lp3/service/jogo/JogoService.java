@@ -58,12 +58,12 @@ public class JogoService {
 
             String timeCasa = textFieldTimeCasaJogo.getText();
             String timeFora = textFieldTimeForaJogo.getText();
-            Integer totalDeGols = Integer.valueOf(textFieldTotalDeGolsJogo.getText());
+            String placar = textFieldTotalDeGolsJogo.getText();
             var dataDoJogo = (Date) dataDoJogoField.getModel().getValue();
 
             jogo.setTimeCasa(timeCasa);
             jogo.setTimeFora(timeFora);
-            jogo.setTotalDeGols(totalDeGols);
+            jogo.setPlacar(placar);
             jogo.setDataDoJogo(dataDoJogo);
 
             jogoRepository.save(jogo);
@@ -132,7 +132,7 @@ public class JogoService {
         painel.add(new JLabel("Time de fora"));
         painel.add(textFieldTimeForaJogo);
 
-        painel.add(new JLabel("Total de gols"));
+        painel.add(new JLabel("Placar esperado"));
         painel.add(textFieldTotalDeGolsJogo);
 
         painel.add(new JLabel("Data do jogo"));

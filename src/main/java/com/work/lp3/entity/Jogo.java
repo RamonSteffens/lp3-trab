@@ -20,6 +20,8 @@ public class Jogo {
 
     private Integer totalDeGols;
 
+    private String placar;
+
     private Date dataDoJogo;
 
     public String getTimeCasa() {
@@ -68,7 +70,7 @@ public class Jogo {
     public String toString() {
         return id + " - Time da casa: "
                 + timeCasa + " - Time visitante: "
-                + timeFora + " - Total de gols: " + totalDeGols;
+                + timeFora + " - Placar esperado: " + placar;
     }
 
     public Date getDataDoJogo() {
@@ -77,5 +79,13 @@ public class Jogo {
 
     public void setDataDoJogo(Date dataDoJogo) {
         this.dataDoJogo = dataDoJogo;
+    }
+
+    public String getPlacar() {
+        return placar;
+    }
+
+    public void setPlacar(String placar) {
+        this.placar = placar;
     }
 }
