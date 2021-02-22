@@ -11,7 +11,7 @@ public class Jogo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToMany(mappedBy = "jogos", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "jogos", fetch = FetchType.EAGER)
     private List<Aposta> apostas;
 
     private String timeCasa;

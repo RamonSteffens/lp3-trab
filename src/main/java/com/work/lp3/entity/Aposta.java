@@ -15,7 +15,7 @@ public class Aposta {
 
     private Double valorAposta;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Jogo> jogos;
 
     @ManyToOne
@@ -50,7 +50,8 @@ public class Aposta {
     @Override
     public String toString() {
         return id + " - Valor apostado: "
-                + valorAposta + " - Apostador: " + getApostador().getNome();
+                + valorAposta + " - Apostador: " + getApostador().getNome()
+                + " - Jogos: " + jogos;
     }
 
     public List<Jogo> getJogos() {
