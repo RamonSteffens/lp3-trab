@@ -13,6 +13,10 @@ public class Apostador {
 
     private String nome;
 
+    private String apelido;
+
+    private String email;
+
     private Date dataAniversario;
 
     //POSSUI UMA APOSTA
@@ -28,12 +32,12 @@ public class Apostador {
     }
 
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setApelido(String nome) {
+        this.apelido = nome;
     }
 
-    public String getNome() {
-        return nome;
+    public String getApelido() {
+        return apelido;
     }
 
     public List<Aposta> getAposta() {
@@ -54,6 +58,22 @@ public class Apostador {
 
     @Override
     public String toString() {
-        return id + " - " + nome + " -- Data de aniversario:" + dataAniversario;
+        return id + " - Nome: " + nome + " -- Apelido: " + apelido + " -- Data de aniversario: " + dataAniversario + " -- Email: " + email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }

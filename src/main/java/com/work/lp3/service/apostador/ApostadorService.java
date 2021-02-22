@@ -2,7 +2,6 @@ package com.work.lp3.service.apostador;
 
 import com.work.lp3.entity.Apostador;
 import com.work.lp3.repository.ApostadorRepository;
-import com.work.lp3.service.aposta.ApostaService;
 import org.jdatepicker.JDatePanel;
 import org.jdatepicker.SqlDateModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Optional;
 
 import static com.work.lp3.Commons.getJanela;
 import static com.work.lp3.service.apostador.BotaoApostadorService.*;
@@ -26,7 +24,10 @@ public class ApostadorService {
     private BotaoApostadorService botaoApostadorService;
 
     //VARIAVEIS DE APOSTADOR
+    public static JTextField textFieldApelidoApostador = new JTextField();
+    public static JTextField textFieldEmailApostador = new JTextField();
     public static JTextField textFieldNomeApostador = new JTextField();
+
     public static JTextField textFieldNomeApostadorProcurado = new JTextField();
     public static JDatePanel dataAniversarioField = new JDatePanel(new SqlDateModel());
 
@@ -101,6 +102,12 @@ public class ApostadorService {
 
         painel.add(new JLabel("Nome"));
         painel.add(textFieldNomeApostador);
+
+        painel.add(new JLabel("Apelido"));
+        painel.add(textFieldApelidoApostador);
+
+        painel.add(new JLabel("Email"));
+        painel.add(textFieldEmailApostador);
 
         painel.add(new JLabel("Data de Aniversario"));
         painel.add(dataAniversarioField);

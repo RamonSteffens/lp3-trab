@@ -33,12 +33,16 @@ public class BotaoApostadorService {
 
             Apostador apostador = new Apostador();
 
+            String apelido = textFieldApelidoApostador.getText();
+            String email = textFieldEmailApostador.getText();
             String nome = textFieldNomeApostador.getText();
 
             Date selectedDate = (Date) dataAniversarioField.getModel().getValue();
 
-            apostador.setNome(nome);
+            apostador.setApelido(apelido);
             apostador.setDataAniversario(selectedDate);
+            apostador.setEmail(email);
+            apostador.setNome(nome);
 
             apostadorRepository.save(apostador);
 
